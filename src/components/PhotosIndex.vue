@@ -13,26 +13,18 @@
 
 <script>
 import PhotoThumbnail from '@/components/PhotoThumbnail'
+import Vuex from 'vuex'
 
 export default {
   name: 'PhotosIndex',
-  data () {
-    return {
-      images: []
-    }
-  },
+  computed: Vuex.mapState(['images', 'loadingImages']),
   components: {
     PhotoThumbnail
   },
-  created () {
-    fetch('http://api.regio.localhost/api/daisy/assets?type=image&per_page=16&page=1&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjIyNzEyNDY2NzgsInN1YiI6NSwiaXNzIjoiaHR0cDpcL1wvbG9jYWxob3N0IiwiaWF0IjoxNDgyODQ2NjgwLCJuYmYiOjE0ODI4NDY2ODAsImp0aSI6IjJkODZlNmRjOTRlOTZmMzRiMDhiNWEwOTllN2Y2ODMyIn0.MUeueet2nlfQORsaG5Vr0c3eka4TCx8QWFua4kgMs7A')
-      .then(response => response.json())
-      .then(json => {
-        this.images = json.data
-      })
+  mounted () {
+    this.$store.dispatch('loadImages')
   }
 }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
